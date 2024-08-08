@@ -98,11 +98,14 @@
 }
 
 
-.desc {
+.desc_hero {
   @apply mt-5 text-lg text-gray-500 sm:text-xl text-center max-w-2xl;
+}
+
+.desc_create_post {
+  @apply mt-3 text-lg text-gray-500 sm:text-xl max-w-2xl;
 }
 
 .ai_trip_gradient {
   @apply bg-gradient-to-r from-teal-400 via-blue-500 to-indigo-600 bg-clip-text text-transparent;
 }
-

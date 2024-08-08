@@ -10,12 +10,12 @@ const Hero = () => {
                  Personalise your travel experience
             </h1>
 
-            <h2 className='desc'>
+            <h2 className='desc_hero'>
                 Your personal trip planner and travel curator, creating custom itineraries tailored to your interests and budget.
             </h2>
 
             <Link href='/create-trip'>
-                <Button className='mt-5'>Get Started</Button>
+                <Button className='mt-6'>Get Started</Button>
             </Link>
         </div>
     )
