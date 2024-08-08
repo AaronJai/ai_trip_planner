@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Lato } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
-
+import { Toaster } from "@/components/ui/sonner"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const lato = Lato({ 
@@ -32,7 +32,7 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
-      
+        <Toaster />
       </body>
     </html>
   );

@@ -5,13 +5,21 @@ import { Input } from '@/components/ui/input';
 import { SelectBudgetOptions, SelectTravelList } from '@/constants';
 import React, { useEffect, useState } from 'react'
 import ReactGoogleAutocomplete from 'react-google-autocomplete'
+import { toast } from 'sonner';
 
 const CreateTrip = () => {
     const [place, setPlace] = useState();
 
-    const [formData, setFormData] = useState({});
+    interface FormData {
+        noOfDays?: any;
+        location?: any;
+        budget?: string;
+        people?: string;
+    }
+    
+    const [formData, setFormData] = useState<FormData>({});
 
-    const handleInputChange = (name: string, value: any) => {
+    const handleInputChange = (name: any, value: any) => {
         setFormData({
             ...formData,
             [name]: value
@@ -21,6 +29,13 @@ const CreateTrip = () => {
     useEffect(() => {
         console.log(formData);
     }, [formData])
+
+    const OnGenerateTrip = () => {
+        if (!formData?.location || !formData?.noOfDays || !formData?.budget || !formData?.people) {
+            toast('Please fill all the fields');
+            return;
+        }
+    }
 
     return (
         <div className='max-w-4xl mx-auto sm:px-10 px-5 mt-10'>
@@ -97,7 +112,7 @@ const CreateTrip = () => {
             </div>
             
             <div className='my-10 justify-end flex'>
-                <Button className=''>Generate Trip</Button>
+                <Button onClick={OnGenerateTrip}>Generate Trip</Button>
 
             </div>
         </div>
