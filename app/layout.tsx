@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, Lato } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider"
 
-import { cn } from '@/lib/utils';
 
-const fontSans = Plus_Jakarta_Sans({ 
-  subsets: ["latin"],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-sans',
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const lato = Lato({ 
+  subsets: ["latin"], 
+  weight: ['400', '700'],
+  variable: "--font-lato"
 });
 
 export const metadata: Metadata = {
   title: "AI Trip Planner",
-  description: "A trip planner that uses AI to help you plan your trips.",
+  description: "AI Trip Planner",
 };
 
 export default function RootLayout({
@@ -22,7 +23,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn('min-h-screen bg-dark-300 font-sans antialiased', fontSans.variable)}>{children}</body>
+      <body className={`${inter.className} ${lato.variable}`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      
+      </body>
     </html>
   );
 }
