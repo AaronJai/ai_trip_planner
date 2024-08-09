@@ -8,11 +8,26 @@ import ReactGoogleAutocomplete from 'react-google-autocomplete'
 import { toast } from 'sonner';
 import { useTheme } from "next-themes";
 import { chatSession } from '@/service/AIModal';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+  } from "@/components/ui/dialog"
+import Image from 'next/image';
+import { FcGoogle } from "react-icons/fc";
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+  
 
 const CreateTrip = () => {
     const { theme } = useTheme();
 
     const [place, setPlace] = useState();
+    
+    const [openDialog, setOpenDialog] = useState(false);
 
     interface FormData {
         totalDays?: any;
@@ -31,10 +46,23 @@ const CreateTrip = () => {
     }
 
     useEffect(() => {
-        console.log(formData);
+        // console.log(formData);
     }, [formData])
 
+    const login = useGoogleLogin({
+        onSuccess: (codeResp) => GetUserProfile(codeResp),
+        onError: (error) => console.log(error),
+    })
+
+
     const OnGenerateTrip = async () => {
+        const user = localStorage.getItem('user');
+
+        if (!user) {
+            setOpenDialog(true);
+            return;
+        }
+
         if (!formData?.location || !formData?.totalDays || !formData?.budget || !formData?.people) {
             toast('Please fill all the fields');
             return;
@@ -49,7 +77,21 @@ const CreateTrip = () => {
             
             const result = await chatSession.sendMessage(FINAL_PROMPT);
 
-            console.log(result?.response?.text());
+            // console.log(result?.response?.text());
+    }
+
+    const GetUserProfile = (tokenInfo) => {
+        axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`, {
+            headers: {
+                Authorization: `Bearer ${tokenInfo?.access_token}`,
+                Accept: 'Application/json'
+            }
+        }).then((resp) => {
+            // console.log(resp)
+            localStorage.setItem('user', JSON.stringify(resp.data));
+            setOpenDialog(false);
+            OnGenerateTrip();
+        })
     }
 
     return (
@@ -128,8 +170,33 @@ const CreateTrip = () => {
             
             <div className='my-10 justify-end flex'>
                 <Button onClick={OnGenerateTrip}>Generate Trip</Button>
-
             </div>
+
+            <Dialog open={openDialog}>
+                
+                <DialogContent>
+                    <DialogHeader>
+                        <Image 
+                            src='/icons/logo.svg'
+                            alt='logo'
+                            width={60}
+                            height={60}
+                        />
+                        <h2 className='font-bold text-lg mt-7'>
+                            Sign In with Google
+                        </h2>
+                        <p>
+                            Sign in to the App with Google Authentication Securely
+                        </p>
+
+                        <Button onClick={() => login()} className='mt-5 gap-4 items-center bg-black'>
+                            <FcGoogle className='h-6 w-6'/>
+                            Sign In With Google
+                        </Button>
+                    </DialogHeader>
+                </DialogContent>
+            </Dialog>
+
         </div>
     )
 }
