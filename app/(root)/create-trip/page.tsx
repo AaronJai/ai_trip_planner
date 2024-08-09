@@ -2,16 +2,20 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { SelectBudgetOptions, SelectTravelList } from '@/constants';
+import { AI_PROMPT, SelectBudgetOptions, SelectTravelList } from '@/constants';
 import React, { useEffect, useState } from 'react'
 import ReactGoogleAutocomplete from 'react-google-autocomplete'
 import { toast } from 'sonner';
+import { useTheme } from "next-themes";
+import { chatSession } from '@/service/AIModal';
 
 const CreateTrip = () => {
+    const { theme } = useTheme();
+
     const [place, setPlace] = useState();
 
     interface FormData {
-        noOfDays?: any;
+        totalDays?: any;
         location?: any;
         budget?: string;
         people?: string;
@@ -30,11 +34,22 @@ const CreateTrip = () => {
         console.log(formData);
     }, [formData])
 
-    const OnGenerateTrip = () => {
-        if (!formData?.location || !formData?.noOfDays || !formData?.budget || !formData?.people) {
+    const OnGenerateTrip = async () => {
+        if (!formData?.location || !formData?.totalDays || !formData?.budget || !formData?.people) {
             toast('Please fill all the fields');
             return;
         }
+
+        const FINAL_PROMPT = AI_PROMPT
+            .replace('{location}', formData?.location?.formatted_address)
+            .replace('{totalDays}', formData?.totalDays)
+            .replace('{budget}', formData?.budget)
+            .replace('{people}', formData?.people)
+            .replace('{totalDays}', formData?.totalDays)
+            
+            const result = await chatSession.sendMessage(FINAL_PROMPT);
+
+            console.log(result?.response?.text());
     }
 
     return (
@@ -66,7 +81,7 @@ const CreateTrip = () => {
                     <h2 className='text-xl my-3 font-medium'>
                         📅 How many days? 
                     </h2>
-                    <Input placeholder='Ex. 3' type='number' min={1} onChange={(e) => handleInputChange('noOfDays', e.target.value)}/>
+                    <Input placeholder='Ex. 3' type='number' min={1} onChange={(e) => handleInputChange('totalDays', e.target.value)}/>
                 </div>
 
                 <div>
@@ -78,7 +93,7 @@ const CreateTrip = () => {
                         {SelectBudgetOptions.map((item, index) => (
                             <div 
                                 key={index} 
-                                className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg ${formData?.budget === item.title && 'shadow-lg border-black border-2'}`}
+                                className={`box_border_dark ${formData?.budget === item.title && (theme === 'dark' ? 'box_border_shadow_dark' : 'box_border_shadow_light')}`}
                                 onClick={() => handleInputChange('budget', item.title)}
                             >
                                 <h2 className='text-4xl'>{item.icon}</h2>
@@ -98,7 +113,7 @@ const CreateTrip = () => {
                         {SelectTravelList.map((item, index) => (
                             <div 
                                 key={index} 
-                                className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg ${formData?.people === item.people && 'shadow-lg border-black border-2'}`}
+                                className={`box_border_dark ${formData?.people === item.people && (theme === 'dark' ? 'box_border_shadow_dark' : 'box_border_shadow_light')}`}
                                 onClick={() => handleInputChange('people', item.people)}
                             >
                                 <h2 className='text-4xl'>{item.icon}</h2>

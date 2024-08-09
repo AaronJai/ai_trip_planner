@@ -107,7 +107,19 @@
 }
 
 .location_input {
-  @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50
+  @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.box_border_dark {
+  @apply p-4 border cursor-pointer rounded-lg hover:shadow-lg;
+}
+
+.box_border_shadow_light {
+  @apply shadow-lg border-black border-2;
+}
+
+.box_border_shadow_dark {
+  @apply shadow-lg border-gray-300 border-2;
 }
 
 .ai_trip_gradient {
