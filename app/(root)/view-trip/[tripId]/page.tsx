@@ -1,6 +1,8 @@
 'use client';
 
+import Hotels from '@/components/Hotels';
 import InfoSection from '@/components/InfoSection';
+import Itinerary from '@/components/Itinerary';
 import { db } from '@/service/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
 import { useParams } from 'next/navigation'
@@ -36,8 +38,10 @@ const ViewTrip =  () => {
             <InfoSection trip={Trip} />
 
             {/* Recommended Hotels */}
+            <Hotels trip={Trip} />
 
             {/* Daily plan */}
+            <Itinerary trip={Trip} />
 
             {/* Footer */}
         </div>
