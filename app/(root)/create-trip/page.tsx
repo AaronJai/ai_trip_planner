@@ -23,6 +23,7 @@ import axios from 'axios';
 import { doc, setDoc } from "firebase/firestore"; 
 import { db } from '@/service/firebaseConfig';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useRouter } from 'next/navigation';
 
   
 
@@ -32,6 +33,7 @@ const CreateTrip = () => {
     const [place, setPlace] = useState();
     const [openDialog, setOpenDialog] = useState(false);
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     interface FormData {
         totalDays?: any;
@@ -131,6 +133,8 @@ const CreateTrip = () => {
         } finally {
             setLoading(false);
         }
+
+        router.push(`/view-trip/${docId}`);
     };
 
     const GetUserProfile = (tokenInfo: any) => {
