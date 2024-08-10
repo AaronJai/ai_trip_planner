@@ -1,7 +1,12 @@
+'use client';
+
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button';
 import { IoSend } from "react-icons/io5";
+import { GetPlaceDetails } from '@/service/GlobalApi';
+
+const PHOTO_REF_URL = 'https://places.googleapis.com/v1/{NAME}/media?&maxHeightPx=1000&maxWidthPx=1000&key=' + process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY + ''
 
 
 const InfoSection = ({trip}: {trip: any}) => {
@@ -11,15 +16,34 @@ const InfoSection = ({trip}: {trip: any}) => {
     const totalDays = trip?.userSelection?.totalDays;
     const budget = trip?.userSelection?.budget;
     const totalPeople = trip?.userSelection?.people;
-    
+
+    const [photoUrl, setPhotoUrl] = useState();
+
+    useEffect(() => {
+        if(trip) GetPlacePhoto();
+    }, [trip])
+
+    const GetPlacePhoto = async () => {
+        const data = {
+            textQuery: formattedAddress,
+        }
+
+        const result = await GetPlaceDetails(data).then(resp => {
+            console.log(resp.data.places[0].photos[2].name);
+            const PhotoUrl = PHOTO_REF_URL.replace('{NAME}', resp.data.places[0].photos[2].name);
+            console.log(PhotoUrl);
+
+        })
+    }
+
 
     return (
         <div>
             <Image
-                src="/placeholder.png"
+                src='/placeholder.png'
                 alt='placeholder'
-                width={3000}
-                height={3000}
+                width={1000}
+                height={1000}
                 className='h-[340px] w-full object-cover rounded-xl'
             />
 
