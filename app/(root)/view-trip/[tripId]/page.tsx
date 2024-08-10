@@ -1,5 +1,6 @@
 'use client';
 
+import Footer from '@/components/Footer';
 import Hotels from '@/components/Hotels';
 import InfoSection from '@/components/InfoSection';
 import Itinerary from '@/components/Itinerary';
@@ -44,6 +45,7 @@ const ViewTrip =  () => {
             <Itinerary trip={Trip} />
 
             {/* Footer */}
+            <Footer />
         </div>
     )
 }

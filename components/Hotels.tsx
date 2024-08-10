@@ -10,7 +10,7 @@ const Hotels = ({ trip }: { trip: any }) => {
 
             <div className='grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4'>
                 {trip?.tripData?.hotelOptions?.map((item: any, index: number) => (
-                    <Link href={`https://www.google.com/maps/search/?api=1&query=${item?.HotelName}+${item?.HotelAddress}`} target='_blank'>
+                    <Link key={index} href={`https://www.google.com/maps/search/?api=1&query=${item?.HotelName}+${item?.HotelAddress}`} target='_blank'>
                     
                         <div key={index} className='hover:scale-105 transition-all cursor-pointer'>
                             <Image
