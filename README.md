@@ -3,17 +3,26 @@ Utilise AI to plan and create a trip itinerary
 
 ## Tech Stack
 ⭐ Next.js
+
 ⭐ TypeScript
+
 ⭐ TailwindCSS
+
 ⭐ ShadCN
+
 ⭐ Google Maps API's
+
 ⭐ Gemini API
+
 ⭐ Firebase
 
 ## Features
 👉 User Input: Location (uses Google's Places API), Number of days visting, budget, and number of travellers.
+
 👉 Authentication: Google Authenticates users when generating a trip.
+
 👉 Trip information: Google Gemini outputs details of the trip in JSON format, and information is accessed to display details.
+
 👉 Trip details: Users are given recommended hotels, and places to visit as well as the time to visit, and costs if any.
 
 ## NOTE
